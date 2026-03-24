@@ -14,22 +14,7 @@ This repository contains structured workflows (Skills) for AI agents such as [Op
 skills/
 └── codex/
     ├── deep-learning-paper-code-repro/   # DL paper + code reproduction workflow
-    │   ├── SKILL.md                      # Skill definition and workflow instructions
-    │   ├── agents/
-    │   │   └── openai.yaml               # Codex agent interface config
-    │   └── references/
-    │       ├── inspection-checklist.md   # Paper–code consistency checklist
-    │       └── report-template.md        # Reproduction analysis report template
-    │
     └── research-repro-cv-medimg/         # CV / medical imaging research repro workflow
-        ├── SKILL.md                      # Skill definition and workflow instructions
-        ├── agents/
-        │   └── openai.yaml               # Codex agent interface config
-        └── references/
-            ├── paper-reading.md          # Paper content extraction checklist
-            ├── repo-analysis.md          # Code repository analysis guide
-            ├── repro-checklist.md        # Reproduction checklist
-            └── experiment-design.md      # Experiment design and ablation guide
 ```
 
 ---

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Research Repro for CV MedImg"
+  short_description: "Read papers and repos for reproducible CV/MedImg research"
+  default_prompt: "Use $research-repro-cv-medimg to read this paper and repo, extract the experimental setup, and prepare a reproduction plan."

@@ -3,8 +3,8 @@
 Personal Codex skills and reusable agent workflows.
 
 This repository is the source of truth for my custom Codex skills. The skills
-live under `skills/codex/` and can be copied into a new machine's Codex home so
-both the Codex app and Codex CLI can use the same workflows.
+live under `skills/codex/` and can be copied into a new machine's Agent Skills
+home so both the Codex app and Codex CLI can use the same workflows.
 
 ## Repository layout
 
@@ -41,9 +41,8 @@ diffs, then chooses fast-forward, merge, cherry-pick, or manual porting.
 
 ## Install on a new device
 
-Codex app and Codex CLI both read local skills from the Codex home directory.
-By default that is `~/.codex`, so custom skills should be installed under
-`~/.codex/skills/`.
+Codex app and Codex CLI read user skills from the Agent Skills directory. The
+current default is `~/.agents/skills/`.
 
 1. Clone this repository:
 
@@ -52,7 +51,7 @@ git clone git@github.com:xiaoran007/agent-workflows.git ~/code/agent-workflows
 cd ~/code/agent-workflows
 ```
 
-2. Install all custom skills into Codex home:
+2. Install all custom skills:
 
 ```bash
 ./scripts/codex-skills.sh install --all
@@ -61,7 +60,7 @@ cd ~/code/agent-workflows
 3. Verify that the skills are present:
 
 ```bash
-find "$CODEX_HOME/skills" -maxdepth 2 -name SKILL.md -print
+find "${AGENTS_HOME:-$HOME/.agents}/skills" -maxdepth 2 -name SKILL.md -print
 ```
 
 4. Restart Codex app or start a new Codex CLI session.
@@ -88,7 +87,8 @@ Restart Codex app or start a new Codex CLI session after copying.
 
 Use `scripts/codex-skills.sh` to install, update, or remove tracked skills.
 When no target is passed, the script operates on all skills under
-`skills/codex/`. You can also pass `--all` explicitly.
+`skills/codex/`. You can also pass `--all` explicitly. By default, skills are
+installed to `~/.agents/skills`.
 
 ```bash
 # Install or update everything
@@ -107,10 +107,18 @@ When no target is passed, the script operates on all skills under
 ./scripts/codex-skills.sh update --all --dry-run
 ```
 
-Set `CODEX_HOME` if Codex uses a non-default home directory:
+Set `AGENTS_HOME` if the Agent Skills directory uses a non-default location:
 
 ```bash
-CODEX_HOME=/path/to/.codex ./scripts/codex-skills.sh install --all
+AGENTS_HOME=/path/to/.agents ./scripts/codex-skills.sh install --all
+```
+
+Use `-c` or `--legacy-codex` for older Codex installs that still load skills
+from `~/.codex/skills`:
+
+```bash
+./scripts/codex-skills.sh install --all -c
+./scripts/codex-skills.sh update ssh-git-sync --legacy-codex
 ```
 
 ## Update an existing device
@@ -125,7 +133,7 @@ git pull
 
 This overwrites the installed copies of these custom skills with the versions
 tracked in this repository. It does not remove other skills under
-`$CODEX_HOME/skills`.
+`~/.agents/skills`.
 
 ## License
 

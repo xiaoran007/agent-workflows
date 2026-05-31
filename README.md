@@ -52,12 +52,10 @@ git clone git@github.com:xiaoran007/agent-workflows.git ~/code/agent-workflows
 cd ~/code/agent-workflows
 ```
 
-2. Copy all custom skills into Codex home:
+2. Install all custom skills into Codex home:
 
 ```bash
-export CODEX_HOME="${CODEX_HOME:-$HOME/.codex}"
-mkdir -p "$CODEX_HOME/skills"
-cp -R skills/codex/* "$CODEX_HOME/skills/"
+./scripts/codex-skills.sh install --all
 ```
 
 3. Verify that the skills are present:
@@ -81,22 +79,48 @@ Use $research-repro-cv-medimg to prepare a reproduction plan.
 To install only one workflow:
 
 ```bash
-export CODEX_HOME="${CODEX_HOME:-$HOME/.codex}"
-mkdir -p "$CODEX_HOME/skills"
-cp -R skills/codex/ssh-git-sync "$CODEX_HOME/skills/"
+./scripts/codex-skills.sh install skills/codex/ssh-git-sync
 ```
 
 Restart Codex app or start a new Codex CLI session after copying.
 
+## Manage skills
+
+Use `scripts/codex-skills.sh` to install, update, or remove tracked skills.
+When no target is passed, the script operates on all skills under
+`skills/codex/`. You can also pass `--all` explicitly.
+
+```bash
+# Install or update everything
+./scripts/codex-skills.sh install --all
+./scripts/codex-skills.sh update --all
+
+# Install, update, or remove one skill by path
+./scripts/codex-skills.sh install skills/codex/ssh-git-sync
+./scripts/codex-skills.sh update skills/codex/ssh-git-sync
+./scripts/codex-skills.sh remove skills/codex/ssh-git-sync
+
+# Skill names also work
+./scripts/codex-skills.sh remove ssh-git-sync
+
+# Preview actions without changing files
+./scripts/codex-skills.sh update --all --dry-run
+```
+
+Set `CODEX_HOME` if Codex uses a non-default home directory:
+
+```bash
+CODEX_HOME=/path/to/.codex ./scripts/codex-skills.sh install --all
+```
+
 ## Update an existing device
 
-Pull the latest repository changes, then copy the skills again:
+Pull the latest repository changes, then run the update command:
 
 ```bash
 cd ~/code/agent-workflows
 git pull
-export CODEX_HOME="${CODEX_HOME:-$HOME/.codex}"
-cp -R skills/codex/* "$CODEX_HOME/skills/"
+./scripts/codex-skills.sh update --all
 ```
 
 This overwrites the installed copies of these custom skills with the versions

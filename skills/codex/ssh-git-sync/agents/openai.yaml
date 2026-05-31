@@ -1,0 +1,4 @@
+interface:
+  display_name: "SSH Git Sync"
+  short_description: "Import Git changes from SSH worktrees"
+  default_prompt: "Use $ssh-git-sync to fetch commits from an SSH development machine and merge or port them into my local repo."

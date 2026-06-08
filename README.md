@@ -1,8 +1,8 @@
 # agent-workflows
 
-Personal Codex skills and reusable agent workflows.
+Personal agent skills and reusable agent workflows.
 
-This repository is the source of truth for my custom Codex skills. The skills
+This repository is the source of truth for my custom agent skills. The skills
 live under `skills/codex/` and can be copied into a new machine's Agent Skills
 home so both the Codex app and Codex CLI can use the same workflows.
 

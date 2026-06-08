@@ -110,17 +110,29 @@ installed to `~/.agents/skills`.
 ./scripts/codex-skills.sh install --all
 ./scripts/codex-skills.sh update --all
 
+# Compare installed skills with the repository
+./scripts/codex-skills.sh scan --all
+
 # Install, update, or remove one skill by path
 ./scripts/codex-skills.sh install skills/codex/ssh-git-sync
 ./scripts/codex-skills.sh update skills/codex/ssh-git-sync
 ./scripts/codex-skills.sh remove skills/codex/ssh-git-sync
 
 # Skill names also work
+./scripts/codex-skills.sh scan ssh-git-sync
 ./scripts/codex-skills.sh remove ssh-git-sync
+
+# Copy installed local changes back into the repository
+./scripts/codex-skills.sh copy-to-repo ssh-git-sync
 
 # Preview actions without changing files
 ./scripts/codex-skills.sh update --all --dry-run
+./scripts/codex-skills.sh copy-to-repo ssh-git-sync --dry-run
 ```
+
+`scan` reports `same`, `changed`, `missing-local`, or `local-only`.
+`copy-to-repo` copies from `${AGENTS_HOME:-$HOME/.agents}/skills` into
+`skills/codex/`, replacing the tracked skill directory for the selected name.
 
 Set `AGENTS_HOME` if the Agent Skills directory uses a non-default location:
 
@@ -153,17 +165,29 @@ subagents are installed to `~/.codex/agents`.
 ./scripts/codex-subagents.sh install --all
 ./scripts/codex-subagents.sh update --all
 
+# Compare installed custom agents with the repository
+./scripts/codex-subagents.sh scan --all
+
 # Install, update, or remove one custom agent by path
 ./scripts/codex-subagents.sh install subagents/codex/reviewer.toml
 ./scripts/codex-subagents.sh update subagents/codex/reviewer.toml
 ./scripts/codex-subagents.sh remove subagents/codex/reviewer.toml
 
 # Agent names also work
+./scripts/codex-subagents.sh scan reviewer
 ./scripts/codex-subagents.sh remove reviewer
+
+# Copy installed local changes back into the repository
+./scripts/codex-subagents.sh copy-to-repo reviewer
 
 # Preview actions without changing files
 ./scripts/codex-subagents.sh update --all --dry-run
+./scripts/codex-subagents.sh copy-to-repo reviewer --dry-run
 ```
+
+`scan` reports `same`, `changed`, `missing-local`, or `local-only`.
+`copy-to-repo` copies from `${CODEX_HOME:-$HOME/.codex}/agents` into
+`subagents/codex/`, replacing the tracked TOML file for the selected name.
 
 Set `CODEX_HOME` if the personal Codex configuration directory uses a
 non-default location:
@@ -173,11 +197,14 @@ CODEX_HOME=/path/to/.codex ./scripts/codex-subagents.sh install --all
 ```
 
 Use `-p` or `--project` to install project-scoped subagents into a repository's
-`.codex/agents` directory:
+`.codex/agents` directory. The same option works for scanning or copying
+project-scoped agents back into this repository:
 
 ```bash
 ./scripts/codex-subagents.sh install --all --project /path/to/repo
 ./scripts/codex-subagents.sh update reviewer --project /path/to/repo
+./scripts/codex-subagents.sh scan --all --project /path/to/repo
+./scripts/codex-subagents.sh copy-to-repo reviewer --project /path/to/repo
 ```
 
 ## Update an existing device

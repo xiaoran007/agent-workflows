@@ -13,6 +13,8 @@ Usage:
   scripts/codex-skills.sh install [--all | SKILL_PATH...]
   scripts/codex-skills.sh update  [--all | SKILL_PATH...]
   scripts/codex-skills.sh remove  [--all | SKILL_PATH...]
+  scripts/codex-skills.sh scan    [--all | SKILL_PATH...]
+  scripts/codex-skills.sh copy-to-repo [--all | SKILL_PATH...]
 
 Options:
   --all       Operate on every skill under skills/codex.
@@ -23,6 +25,8 @@ Options:
 Examples:
   scripts/codex-skills.sh install --all
   scripts/codex-skills.sh update skills/codex/ssh-git-sync
+  scripts/codex-skills.sh scan --all
+  scripts/codex-skills.sh copy-to-repo ssh-git-sync
   scripts/codex-skills.sh remove ssh-git-sync
 
 Set AGENTS_HOME to override the default ~/.agents location.
@@ -73,6 +77,16 @@ skill_name_from_path() {
     return
   fi
 
+  if [[ -d "$dest_root/$target" && -f "$dest_root/$target/SKILL.md" ]]; then
+    basename "$target"
+    return
+  fi
+
+  if [[ "$target" != */* ]]; then
+    printf '%s\n' "$target"
+    return
+  fi
+
   die "not a skill path or known skill name: $target"
 }
 
@@ -83,10 +97,31 @@ source_path_for_name() {
   printf '%s\n' "$path"
 }
 
+local_path_for_name() {
+  local name="$1"
+  local path="$dest_root/$name"
+  [[ -d "$path" && -f "$path/SKILL.md" ]] || die "missing installed skill: $name"
+  printf '%s\n' "$path"
+}
+
 all_skill_names() {
   find "$source_root" -mindepth 1 -maxdepth 1 -type d -exec test -f '{}/SKILL.md' ';' -print |
     while IFS= read -r path; do basename "$path"; done |
     sort
+}
+
+all_local_skill_names() {
+  [[ -d "$dest_root" ]] || return 0
+  find "$dest_root" -mindepth 1 -maxdepth 1 -type d -exec test -f '{}/SKILL.md' ';' -print |
+    while IFS= read -r path; do basename "$path"; done |
+    sort
+}
+
+all_scan_skill_names() {
+  {
+    all_skill_names
+    all_local_skill_names
+  } | sort -u
 }
 
 install_or_update() {
@@ -121,6 +156,42 @@ remove_skill() {
   fi
 }
 
+scan_skill() {
+  local name="$1"
+  local src="$source_root/$name"
+  local dest="$dest_root/$name"
+
+  if [[ -d "$src" && -f "$src/SKILL.md" && -d "$dest" && -f "$dest/SKILL.md" ]]; then
+    if diff -qr "$src" "$dest" >/dev/null; then
+      printf 'same %s\n' "$name"
+    else
+      printf 'changed %s\n' "$name"
+    fi
+  elif [[ -d "$src" && -f "$src/SKILL.md" ]]; then
+    printf 'missing-local %s\n' "$name"
+  elif [[ -d "$dest" && -f "$dest/SKILL.md" ]]; then
+    printf 'local-only %s\n' "$name"
+  else
+    printf 'missing-both %s\n' "$name"
+  fi
+}
+
+copy_to_repo() {
+  local name="$1"
+  local local_path
+  local repo_path="$source_root/$name"
+  local_path="$(local_path_for_name "$name")"
+
+  run mkdir -p "$source_root"
+  run rm -rf "$repo_path"
+  run cp -R "$local_path" "$repo_path"
+  if [[ "$dry_run" == "1" ]]; then
+    printf 'would copy-to-repo %s -> %s\n' "$local_path" "$repo_path"
+  else
+    printf 'copy-to-repo %s -> %s\n' "$local_path" "$repo_path"
+  fi
+}
+
 if [[ $# -eq 0 ]]; then
   usage
   exit 1
@@ -130,7 +201,7 @@ command="$1"
 shift
 
 case "$command" in
-  install|update|remove) ;;
+  install|update|remove|scan|copy-to-repo) ;;
   -h|--help)
     usage
     exit 0
@@ -175,9 +246,23 @@ fi
 
 names=()
 if [[ "$use_all" == "1" || "${#targets[@]}" -eq 0 ]]; then
-  while IFS= read -r name; do
-    names+=("$name")
-  done < <(all_skill_names)
+  case "$command" in
+    scan)
+      while IFS= read -r name; do
+        names+=("$name")
+      done < <(all_scan_skill_names)
+      ;;
+    copy-to-repo)
+      while IFS= read -r name; do
+        names+=("$name")
+      done < <(all_local_skill_names)
+      ;;
+    *)
+      while IFS= read -r name; do
+        names+=("$name")
+      done < <(all_skill_names)
+      ;;
+  esac
 else
   for target in "${targets[@]}"; do
     names+=("$(skill_name_from_path "$target")")
@@ -193,6 +278,12 @@ for name in "${names[@]}"; do
       ;;
     remove)
       remove_skill "$name"
+      ;;
+    scan)
+      scan_skill "$name"
+      ;;
+    copy-to-repo)
+      copy_to_repo "$name"
       ;;
   esac
 done

@@ -14,6 +14,8 @@ Usage:
   scripts/codex-subagents.sh install [--all | AGENT_PATH...]
   scripts/codex-subagents.sh update  [--all | AGENT_PATH...]
   scripts/codex-subagents.sh remove  [--all | AGENT_PATH...]
+  scripts/codex-subagents.sh scan    [--all | AGENT_PATH...]
+  scripts/codex-subagents.sh copy-to-repo [--all | AGENT_PATH...]
 
 Options:
   --all             Operate on every custom agent under subagents/codex.
@@ -25,6 +27,8 @@ Options:
 Examples:
   scripts/codex-subagents.sh install --all
   scripts/codex-subagents.sh update subagents/codex/reviewer.toml
+  scripts/codex-subagents.sh scan --all
+  scripts/codex-subagents.sh copy-to-repo reviewer
   scripts/codex-subagents.sh remove reviewer
   scripts/codex-subagents.sh install --all --project /path/to/repo
 
@@ -58,6 +62,11 @@ agent_name_from_path() {
     path="$repo_root/$target"
   elif [[ -f "$source_root/$target.toml" ]]; then
     path="$source_root/$target.toml"
+  elif [[ -f "$dest_root/$target.toml" ]]; then
+    path="$dest_root/$target.toml"
+  elif [[ "$target" != */* ]]; then
+    printf '%s\n' "$target"
+    return
   else
     die "not a custom agent path or known agent name: $target"
   fi
@@ -72,10 +81,31 @@ source_path_for_name() {
   printf '%s\n' "$path"
 }
 
+local_path_for_name() {
+  local name="$1"
+  local path="$dest_root/$name.toml"
+  [[ -f "$path" ]] || die "missing installed custom agent: $name"
+  printf '%s\n' "$path"
+}
+
 all_agent_names() {
   find "$source_root" -mindepth 1 -maxdepth 1 -type f -name '*.toml' -print |
     while IFS= read -r path; do basename "$path" .toml; done |
     sort
+}
+
+all_local_agent_names() {
+  [[ -d "$dest_root" ]] || return 0
+  find "$dest_root" -mindepth 1 -maxdepth 1 -type f -name '*.toml' -print |
+    while IFS= read -r path; do basename "$path" .toml; done |
+    sort
+}
+
+all_scan_agent_names() {
+  {
+    all_agent_names
+    all_local_agent_names
+  } | sort -u
 }
 
 validate_agent_file() {
@@ -121,6 +151,42 @@ remove_agent() {
   fi
 }
 
+scan_agent() {
+  local name="$1"
+  local src="$source_root/$name.toml"
+  local dest="$dest_root/$name.toml"
+
+  if [[ -f "$src" && -f "$dest" ]]; then
+    if cmp -s "$src" "$dest"; then
+      printf 'same %s\n' "$name"
+    else
+      printf 'changed %s\n' "$name"
+    fi
+  elif [[ -f "$src" ]]; then
+    printf 'missing-local %s\n' "$name"
+  elif [[ -f "$dest" ]]; then
+    printf 'local-only %s\n' "$name"
+  else
+    printf 'missing-both %s\n' "$name"
+  fi
+}
+
+copy_to_repo() {
+  local name="$1"
+  local local_path
+  local repo_path="$source_root/$name.toml"
+  local_path="$(local_path_for_name "$name")"
+  validate_agent_file "$local_path"
+
+  run mkdir -p "$source_root"
+  run cp "$local_path" "$repo_path"
+  if [[ "$dry_run" == "1" ]]; then
+    printf 'would copy-to-repo %s -> %s\n' "$local_path" "$repo_path"
+  else
+    printf 'copy-to-repo %s -> %s\n' "$local_path" "$repo_path"
+  fi
+}
+
 if [[ $# -eq 0 ]]; then
   usage
   exit 1
@@ -130,7 +196,7 @@ command="$1"
 shift
 
 case "$command" in
-  install|update|remove) ;;
+  install|update|remove|scan|copy-to-repo) ;;
   -h|--help)
     usage
     exit 0
@@ -161,6 +227,10 @@ while [[ $# -gt 0 ]]; do
       usage
       exit 0
       ;;
+    -*)
+      usage
+      die "unknown option: $1"
+      ;;
     *)
       targets+=("$1")
       ;;
@@ -180,9 +250,23 @@ fi
 
 names=()
 if [[ "$use_all" == "1" || "${#targets[@]}" -eq 0 ]]; then
-  while IFS= read -r name; do
-    names+=("$name")
-  done < <(all_agent_names)
+  case "$command" in
+    scan)
+      while IFS= read -r name; do
+        names+=("$name")
+      done < <(all_scan_agent_names)
+      ;;
+    copy-to-repo)
+      while IFS= read -r name; do
+        names+=("$name")
+      done < <(all_local_agent_names)
+      ;;
+    *)
+      while IFS= read -r name; do
+        names+=("$name")
+      done < <(all_agent_names)
+      ;;
+  esac
 else
   for target in "${targets[@]}"; do
     names+=("$(agent_name_from_path "$target")")
@@ -201,6 +285,12 @@ for name in "${names[@]}"; do
       ;;
     remove)
       remove_agent "$name"
+      ;;
+    scan)
+      scan_agent "$name"
+      ;;
+    copy-to-repo)
+      copy_to_repo "$name"
       ;;
   esac
 done

@@ -2,22 +2,17 @@
 
 Personal agent skills, custom subagents, and reusable agent workflows.
 
-This repository is the source of truth for my custom Codex workflows. Skills
-live under `skills/codex/` and custom subagents live under `subagents/codex/`.
-They can be copied into a new machine's Codex configuration so the Codex app
-and Codex CLI can use the same workflows.
+This repository is the source of truth for my custom coding agent workflows, mostly for `Codex`. Skills
+live under `skills/` and custom subagents live under `subagents/`.
+They can be install into  or fetch from another machine's configuration so the agent apps can use the same workflows.
 
 ## Repository layout
 
 ```text
 skills/
 └── codex/
-    ├── deep-learning-paper-code-repro/
-    ├── research-repro-cv-medimg/
-    └── ssh-git-sync/
 subagents/
 └── codex/
-    └── README.md
 scripts/
 ├── codex-skills.sh
 └── codex-subagents.sh

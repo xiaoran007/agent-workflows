@@ -27,7 +27,7 @@ default is `~/.agents/skills/`. Personal custom subagents are installed to
 1. Clone this repository:
 
 ```bash
-git clone git@github.com:xiaoran007/agent-workflows.git
+git clone https://github.com/xiaoran007/agent-workflows.git
 cd agent-workflows
 ```
 

@@ -27,8 +27,8 @@ default is `~/.agents/skills/`. Personal custom subagents are installed to
 1. Clone this repository:
 
 ```bash
-git clone git@github.com:xiaoran007/agent-workflows.git ~/code/agent-workflows
-cd ~/code/agent-workflows
+git clone git@github.com:xiaoran007/agent-workflows.git
+cd agent-workflows
 ```
 
 2. Install everything tracked here:
@@ -39,14 +39,6 @@ cd ~/code/agent-workflows
 ```
 
 3. Restart Codex app or start a new Codex CLI session.
-
-To verify the installed copies:
-
-```bash
-find "${AGENTS_HOME:-$HOME/.agents}/skills" -maxdepth 2 -name SKILL.md -print
-find "${CODEX_HOME:-$HOME/.codex}/agents" -maxdepth 1 -name '*.toml' -print
-```
-
 After restart, skills can be invoked by name:
 
 ```text
@@ -99,7 +91,7 @@ directory:
 ## Update an existing device
 
 ```bash
-cd ~/code/agent-workflows
+cd agent-workflows
 git pull
 ./scripts/codex-skills.sh update --all
 ./scripts/codex-subagents.sh update --all

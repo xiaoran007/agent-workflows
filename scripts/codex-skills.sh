@@ -14,7 +14,7 @@ Usage:
   scripts/codex-skills.sh update  [--all | SKILL_PATH...]
   scripts/codex-skills.sh remove  [--all | SKILL_PATH...]
   scripts/codex-skills.sh scan    [--all | SKILL_PATH...]
-  scripts/codex-skills.sh copy-to-repo [--all | SKILL_PATH...]
+  scripts/codex-skills.sh copy    [--all | SKILL_PATH...]
 
 Options:
   --all       Operate on every skill under skills/codex.
@@ -26,7 +26,7 @@ Examples:
   scripts/codex-skills.sh install --all
   scripts/codex-skills.sh update skills/codex/ssh-git-sync
   scripts/codex-skills.sh scan --all
-  scripts/codex-skills.sh copy-to-repo ssh-git-sync
+  scripts/codex-skills.sh copy ssh-git-sync
   scripts/codex-skills.sh remove ssh-git-sync
 
 Set AGENTS_HOME to override the default ~/.agents location.
@@ -176,7 +176,7 @@ scan_skill() {
   fi
 }
 
-copy_to_repo() {
+copy_from_local() {
   local name="$1"
   local local_path
   local repo_path="$source_root/$name"
@@ -186,9 +186,9 @@ copy_to_repo() {
   run rm -rf "$repo_path"
   run cp -R "$local_path" "$repo_path"
   if [[ "$dry_run" == "1" ]]; then
-    printf 'would copy-to-repo %s -> %s\n' "$local_path" "$repo_path"
+    printf 'would copy %s -> %s\n' "$local_path" "$repo_path"
   else
-    printf 'copy-to-repo %s -> %s\n' "$local_path" "$repo_path"
+    printf 'copy %s -> %s\n' "$local_path" "$repo_path"
   fi
 }
 
@@ -201,7 +201,7 @@ command="$1"
 shift
 
 case "$command" in
-  install|update|remove|scan|copy-to-repo) ;;
+  install|update|remove|scan|copy) ;;
   -h|--help)
     usage
     exit 0
@@ -252,7 +252,7 @@ if [[ "$use_all" == "1" || "${#targets[@]}" -eq 0 ]]; then
         names+=("$name")
       done < <(all_scan_skill_names)
       ;;
-    copy-to-repo)
+    copy)
       while IFS= read -r name; do
         names+=("$name")
       done < <(all_local_skill_names)
@@ -282,8 +282,8 @@ for name in "${names[@]}"; do
     scan)
       scan_skill "$name"
       ;;
-    copy-to-repo)
-      copy_to_repo "$name"
+    copy)
+      copy_from_local "$name"
       ;;
   esac
 done

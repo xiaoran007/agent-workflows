@@ -15,7 +15,7 @@ Usage:
   scripts/codex-subagents.sh update  [--all | AGENT_PATH...]
   scripts/codex-subagents.sh remove  [--all | AGENT_PATH...]
   scripts/codex-subagents.sh scan    [--all | AGENT_PATH...]
-  scripts/codex-subagents.sh copy-to-repo [--all | AGENT_PATH...]
+  scripts/codex-subagents.sh copy    [--all | AGENT_PATH...]
 
 Options:
   --all             Operate on every custom agent under subagents/codex.
@@ -28,7 +28,7 @@ Examples:
   scripts/codex-subagents.sh install --all
   scripts/codex-subagents.sh update subagents/codex/reviewer.toml
   scripts/codex-subagents.sh scan --all
-  scripts/codex-subagents.sh copy-to-repo reviewer
+  scripts/codex-subagents.sh copy reviewer
   scripts/codex-subagents.sh remove reviewer
   scripts/codex-subagents.sh install --all --project /path/to/repo
 
@@ -171,7 +171,7 @@ scan_agent() {
   fi
 }
 
-copy_to_repo() {
+copy_from_local() {
   local name="$1"
   local local_path
   local repo_path="$source_root/$name.toml"
@@ -181,9 +181,9 @@ copy_to_repo() {
   run mkdir -p "$source_root"
   run cp "$local_path" "$repo_path"
   if [[ "$dry_run" == "1" ]]; then
-    printf 'would copy-to-repo %s -> %s\n' "$local_path" "$repo_path"
+    printf 'would copy %s -> %s\n' "$local_path" "$repo_path"
   else
-    printf 'copy-to-repo %s -> %s\n' "$local_path" "$repo_path"
+    printf 'copy %s -> %s\n' "$local_path" "$repo_path"
   fi
 }
 
@@ -196,7 +196,7 @@ command="$1"
 shift
 
 case "$command" in
-  install|update|remove|scan|copy-to-repo) ;;
+  install|update|remove|scan|copy) ;;
   -h|--help)
     usage
     exit 0
@@ -256,7 +256,7 @@ if [[ "$use_all" == "1" || "${#targets[@]}" -eq 0 ]]; then
         names+=("$name")
       done < <(all_scan_agent_names)
       ;;
-    copy-to-repo)
+    copy)
       while IFS= read -r name; do
         names+=("$name")
       done < <(all_local_agent_names)
@@ -289,8 +289,8 @@ for name in "${names[@]}"; do
     scan)
       scan_agent "$name"
       ;;
-    copy-to-repo)
-      copy_to_repo "$name"
+    copy)
+      copy_from_local "$name"
       ;;
   esac
 done

@@ -123,15 +123,15 @@ installed to `~/.agents/skills`.
 ./scripts/codex-skills.sh remove ssh-git-sync
 
 # Copy installed local changes back into the repository
-./scripts/codex-skills.sh copy-to-repo ssh-git-sync
+./scripts/codex-skills.sh copy ssh-git-sync
 
 # Preview actions without changing files
 ./scripts/codex-skills.sh update --all --dry-run
-./scripts/codex-skills.sh copy-to-repo ssh-git-sync --dry-run
+./scripts/codex-skills.sh copy ssh-git-sync --dry-run
 ```
 
 `scan` reports `same`, `changed`, `missing-local`, or `local-only`.
-`copy-to-repo` copies from `${AGENTS_HOME:-$HOME/.agents}/skills` into
+`copy` copies from `${AGENTS_HOME:-$HOME/.agents}/skills` into
 `skills/codex/`, replacing the tracked skill directory for the selected name.
 
 Set `AGENTS_HOME` if the Agent Skills directory uses a non-default location:
@@ -178,15 +178,15 @@ subagents are installed to `~/.codex/agents`.
 ./scripts/codex-subagents.sh remove reviewer
 
 # Copy installed local changes back into the repository
-./scripts/codex-subagents.sh copy-to-repo reviewer
+./scripts/codex-subagents.sh copy reviewer
 
 # Preview actions without changing files
 ./scripts/codex-subagents.sh update --all --dry-run
-./scripts/codex-subagents.sh copy-to-repo reviewer --dry-run
+./scripts/codex-subagents.sh copy reviewer --dry-run
 ```
 
 `scan` reports `same`, `changed`, `missing-local`, or `local-only`.
-`copy-to-repo` copies from `${CODEX_HOME:-$HOME/.codex}/agents` into
+`copy` copies from `${CODEX_HOME:-$HOME/.codex}/agents` into
 `subagents/codex/`, replacing the tracked TOML file for the selected name.
 
 Set `CODEX_HOME` if the personal Codex configuration directory uses a
@@ -204,7 +204,7 @@ project-scoped agents back into this repository:
 ./scripts/codex-subagents.sh install --all --project /path/to/repo
 ./scripts/codex-subagents.sh update reviewer --project /path/to/repo
 ./scripts/codex-subagents.sh scan --all --project /path/to/repo
-./scripts/codex-subagents.sh copy-to-repo reviewer --project /path/to/repo
+./scripts/codex-subagents.sh copy reviewer --project /path/to/repo
 ```
 
 ## Update an existing device

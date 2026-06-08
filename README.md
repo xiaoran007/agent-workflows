@@ -18,7 +18,101 @@ scripts/
 └── codex-subagents.sh
 ```
 
+## Quick install
+
+Codex app and Codex CLI read user skills from the Agent Skills directory. The
+default is `~/.agents/skills/`. Personal custom subagents are installed to
+`~/.codex/agents/`.
+
+1. Clone this repository:
+
+```bash
+git clone git@github.com:xiaoran007/agent-workflows.git ~/code/agent-workflows
+cd ~/code/agent-workflows
+```
+
+2. Install everything tracked here:
+
+```bash
+./scripts/codex-skills.sh install --all
+./scripts/codex-subagents.sh install --all
+```
+
+3. Restart Codex app or start a new Codex CLI session.
+
+To verify the installed copies:
+
+```bash
+find "${AGENTS_HOME:-$HOME/.agents}/skills" -maxdepth 2 -name SKILL.md -print
+find "${CODEX_HOME:-$HOME/.codex}/agents" -maxdepth 1 -name '*.toml' -print
+```
+
+After restart, skills can be invoked by name:
+
+```text
+Use $ssh-git-sync to import commits from my remote worktree.
+Use $deep-learning-paper-code-repro to analyze this paper and repository.
+Use $research-repro-cv-medimg to prepare a reproduction plan.
+```
+
+## Common commands
+
+```bash
+# Update installed copies from this repository
+./scripts/codex-skills.sh update --all
+./scripts/codex-subagents.sh update --all
+
+# Compare installed copies with this repository
+./scripts/codex-skills.sh scan --all
+./scripts/codex-subagents.sh scan --all
+
+# Install or update one item
+./scripts/codex-skills.sh install skills/codex/ssh-git-sync
+./scripts/codex-subagents.sh install subagents/codex/git-branch-auditor.toml
+
+# Copy installed local changes back into this repository
+./scripts/codex-skills.sh copy ssh-git-sync
+./scripts/codex-subagents.sh copy git-branch-auditor
+
+# Preview an operation
+./scripts/codex-skills.sh update --all --dry-run
+./scripts/codex-subagents.sh copy git-branch-auditor --dry-run
+```
+
+`scan` reports `same`, `changed`, `missing-local`, or `local-only`. The scripts
+accept either repository paths or item names. Set custom config roots when
+needed:
+
+```bash
+AGENTS_HOME=/path/to/.agents ./scripts/codex-skills.sh install --all
+CODEX_HOME=/path/to/.codex ./scripts/codex-subagents.sh install --all
+```
+
+Project-scoped subagents can be installed into a repository's `.codex/agents`
+directory:
+
+```bash
+./scripts/codex-subagents.sh install --all --project /path/to/repo
+./scripts/codex-subagents.sh scan --all --project /path/to/repo
+```
+
+## Update an existing device
+
+```bash
+cd ~/code/agent-workflows
+git pull
+./scripts/codex-skills.sh update --all
+./scripts/codex-subagents.sh update --all
+```
+
+This overwrites the installed copies of tracked skills and subagents with the
+versions in this repository. It does not remove unrelated local skills or
+custom agents.
+
 ## Skills
+
+Skills live under `skills/codex/<name>/SKILL.md`. Each skill packages a reusable
+workflow and any supporting references or agent presets.
 
 ### `deep-learning-paper-code-repro`
 
@@ -41,181 +135,17 @@ such as an SSH development machine, remote Linux host, container checkout, or
 mounted path. It fetches into a namespaced ref, compares commit graphs and
 diffs, then chooses fast-forward, merge, cherry-pick, or manual porting.
 
-## Install on a new device
-
-Codex app and Codex CLI read user skills from the Agent Skills directory. The
-current default is `~/.agents/skills/`. Personal custom subagents are installed
-to `~/.codex/agents/`.
-
-1. Clone this repository:
-
-```bash
-git clone git@github.com:xiaoran007/agent-workflows.git ~/code/agent-workflows
-cd ~/code/agent-workflows
-```
-
-2. Install all custom skills:
-
-```bash
-./scripts/codex-skills.sh install --all
-```
-
-3. Install all custom subagents if any are tracked:
-
-```bash
-./scripts/codex-subagents.sh install --all
-```
-
-4. Verify that the skills and subagents are present:
-
-```bash
-find "${AGENTS_HOME:-$HOME/.agents}/skills" -maxdepth 2 -name SKILL.md -print
-find "${CODEX_HOME:-$HOME/.codex}/agents" -maxdepth 1 -name '*.toml' -print
-```
-
-5. Restart Codex app or start a new Codex CLI session.
-
-After restart, the skills should be available by name, for example:
-
-```text
-Use $ssh-git-sync to import commits from my remote worktree.
-Use $deep-learning-paper-code-repro to analyze this paper and repository.
-Use $research-repro-cv-medimg to prepare a reproduction plan.
-```
-
-## Install one skill
-
-To install only one workflow:
-
-```bash
-./scripts/codex-skills.sh install skills/codex/ssh-git-sync
-```
-
-Restart Codex app or start a new Codex CLI session after copying.
-
-## Manage skills
-
-Use `scripts/codex-skills.sh` to install, update, or remove tracked skills.
-When no target is passed, the script operates on all skills under
-`skills/codex/`. You can also pass `--all` explicitly. By default, skills are
-installed to `~/.agents/skills`.
-
-```bash
-# Install or update everything
-./scripts/codex-skills.sh install --all
-./scripts/codex-skills.sh update --all
-
-# Compare installed skills with the repository
-./scripts/codex-skills.sh scan --all
-
-# Install, update, or remove one skill by path
-./scripts/codex-skills.sh install skills/codex/ssh-git-sync
-./scripts/codex-skills.sh update skills/codex/ssh-git-sync
-./scripts/codex-skills.sh remove skills/codex/ssh-git-sync
-
-# Skill names also work
-./scripts/codex-skills.sh scan ssh-git-sync
-./scripts/codex-skills.sh remove ssh-git-sync
-
-# Copy installed local changes back into the repository
-./scripts/codex-skills.sh copy ssh-git-sync
-
-# Preview actions without changing files
-./scripts/codex-skills.sh update --all --dry-run
-./scripts/codex-skills.sh copy ssh-git-sync --dry-run
-```
-
-`scan` reports `same`, `changed`, `missing-local`, or `local-only`.
-`copy` copies from `${AGENTS_HOME:-$HOME/.agents}/skills` into
-`skills/codex/`, replacing the tracked skill directory for the selected name.
-
-Set `AGENTS_HOME` if the Agent Skills directory uses a non-default location:
-
-```bash
-AGENTS_HOME=/path/to/.agents ./scripts/codex-skills.sh install --all
-```
-
 ## Subagents
 
 Codex custom subagents are standalone TOML files under `subagents/codex/`.
-Each file defines one agent and should include `name`, `description`, and
-`developer_instructions`.
+Each file defines one reusable agent and should include `name`, `description`,
+and `developer_instructions`.
 
-```toml
-name = "reviewer"
-description = "PR reviewer focused on correctness, security, and missing tests."
-developer_instructions = """
-Review code like an owner.
-Prioritize correctness, security, behavior regressions, and missing tests.
-"""
-```
+### `git-branch-auditor`
 
-Use `scripts/codex-subagents.sh` to install, update, or remove tracked custom
-subagents. When no target is passed, the script operates on all TOML files
-under `subagents/codex/`. You can also pass `--all` explicitly. By default,
-subagents are installed to `~/.codex/agents`.
-
-```bash
-# Install or update everything
-./scripts/codex-subagents.sh install --all
-./scripts/codex-subagents.sh update --all
-
-# Compare installed custom agents with the repository
-./scripts/codex-subagents.sh scan --all
-
-# Install, update, or remove one custom agent by path
-./scripts/codex-subagents.sh install subagents/codex/reviewer.toml
-./scripts/codex-subagents.sh update subagents/codex/reviewer.toml
-./scripts/codex-subagents.sh remove subagents/codex/reviewer.toml
-
-# Agent names also work
-./scripts/codex-subagents.sh scan reviewer
-./scripts/codex-subagents.sh remove reviewer
-
-# Copy installed local changes back into the repository
-./scripts/codex-subagents.sh copy reviewer
-
-# Preview actions without changing files
-./scripts/codex-subagents.sh update --all --dry-run
-./scripts/codex-subagents.sh copy reviewer --dry-run
-```
-
-`scan` reports `same`, `changed`, `missing-local`, or `local-only`.
-`copy` copies from `${CODEX_HOME:-$HOME/.codex}/agents` into
-`subagents/codex/`, replacing the tracked TOML file for the selected name.
-
-Set `CODEX_HOME` if the personal Codex configuration directory uses a
-non-default location:
-
-```bash
-CODEX_HOME=/path/to/.codex ./scripts/codex-subagents.sh install --all
-```
-
-Use `-p` or `--project` to install project-scoped subagents into a repository's
-`.codex/agents` directory. The same option works for scanning or copying
-project-scoped agents back into this repository:
-
-```bash
-./scripts/codex-subagents.sh install --all --project /path/to/repo
-./scripts/codex-subagents.sh update reviewer --project /path/to/repo
-./scripts/codex-subagents.sh scan --all --project /path/to/repo
-./scripts/codex-subagents.sh copy reviewer --project /path/to/repo
-```
-
-## Update an existing device
-
-Pull the latest repository changes, then run the update command:
-
-```bash
-cd ~/code/agent-workflows
-git pull
-./scripts/codex-skills.sh update --all
-./scripts/codex-subagents.sh update --all
-```
-
-This overwrites the installed copies of these custom skills and subagents with
-the versions tracked in this repository. It does not remove other skills under
-`~/.agents/skills` or other custom agents under `~/.codex/agents`.
+Read-only Git branch auditor for inspecting local and remote branch state,
+tracking relationships, ahead/behind status, divergence, stale refs, and the
+current repository position without modifying the repository.
 
 ## License
 

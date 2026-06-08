@@ -4,10 +4,8 @@ set -euo pipefail
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source_root="$repo_root/skills/codex"
 agents_home="${AGENTS_HOME:-$HOME/.agents}"
-codex_home="${CODEX_HOME:-$HOME/.codex}"
 dest_root="$agents_home/skills"
 dry_run=0
-legacy_codex=0
 
 usage() {
   cat <<'EOF'
@@ -18,8 +16,6 @@ Usage:
 
 Options:
   --all       Operate on every skill under skills/codex.
-  -c, --legacy-codex
-              Install to ~/.codex/skills instead of ~/.agents/skills.
   -n, --dry-run
               Print actions without changing files.
   -h, --help  Show this help.
@@ -28,10 +24,8 @@ Examples:
   scripts/codex-skills.sh install --all
   scripts/codex-skills.sh update skills/codex/ssh-git-sync
   scripts/codex-skills.sh remove ssh-git-sync
-  scripts/codex-skills.sh install --all --legacy-codex
 
 Set AGENTS_HOME to override the default ~/.agents location.
-With --legacy-codex, set CODEX_HOME to override the default ~/.codex location.
 EOF
 }
 
@@ -155,15 +149,16 @@ while [[ $# -gt 0 ]]; do
     --all)
       use_all=1
       ;;
-    -c|--legacy-codex)
-      legacy_codex=1
-      ;;
     -n|--dry-run)
       dry_run=1
       ;;
     -h|--help)
       usage
       exit 0
+      ;;
+    -*)
+      usage
+      die "unknown option: $1"
       ;;
     *)
       targets+=("$1")
@@ -173,10 +168,6 @@ while [[ $# -gt 0 ]]; do
 done
 
 [[ -d "$source_root" ]] || die "missing source skill root: $source_root"
-
-if [[ "$legacy_codex" == "1" ]]; then
-  dest_root="$codex_home/skills"
-fi
 
 if [[ "$use_all" == "1" && "${#targets[@]}" -gt 0 ]]; then
   die "use either --all or explicit skill paths, not both"

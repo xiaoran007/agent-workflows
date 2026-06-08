@@ -128,14 +128,6 @@ Set `AGENTS_HOME` if the Agent Skills directory uses a non-default location:
 AGENTS_HOME=/path/to/.agents ./scripts/codex-skills.sh install --all
 ```
 
-Use `-c` or `--legacy-codex` for older Codex installs that still load skills
-from `~/.codex/skills`:
-
-```bash
-./scripts/codex-skills.sh install --all -c
-./scripts/codex-skills.sh update ssh-git-sync --legacy-codex
-```
-
 ## Subagents
 
 Codex custom subagents are standalone TOML files under `subagents/codex/`.

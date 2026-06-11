@@ -1,0 +1,4 @@
+interface:
+  display_name: "Oscar Slurm Batch"
+  short_description: "Draft Oscar Slurm batch scripts"
+  default_prompt: "Use $oscar-slurm-batch to create a Slurm batch script for an Oscar cluster job."

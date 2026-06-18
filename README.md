@@ -54,6 +54,7 @@ Use $ssh-git-sync to import commits from my remote worktree.
 Use $deep-learning-paper-code-repro to analyze this paper and repository.
 Use $research-repro-cv-medimg to prepare a reproduction plan.
 Use $oscar-slurm-batch to write an Oscar batch job.
+Use $remote-gpu-experiment to run this deep-learning project on my SSH GPU host.
 ```
 
 ## Common commands
@@ -142,6 +143,13 @@ Workflow for creating, reviewing, and refining Slurm batch scripts for Brown
 University's Oscar cluster. It helps choose partitions, CPU/GPU/memory/time
 directives, job arrays, MPI patterns, environment setup, and monitoring
 commands.
+
+### `remote-gpu-experiment`
+
+Workflow for local deep-learning development with execution on a remote GPU
+host over SSH. It fixes the connection, login-shell environment, first PATH
+Python, GPU/dependency probing, sync, run, monitor, debug, and process-stop
+steps used for remote experiments.
 
 ## Subagents
 

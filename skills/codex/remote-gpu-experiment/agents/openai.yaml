@@ -1,0 +1,4 @@
+interface:
+  display_name: "Remote GPU Experiment"
+  short_description: "Run deep-learning work on SSH GPUs"
+  default_prompt: "Use $remote-gpu-experiment to inspect my SSH GPU host, sync this project, and run a training command remotely."

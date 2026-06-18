@@ -4,7 +4,8 @@ Personal agent skills, custom subagents, and reusable agent workflows.
 
 This repository is the source of truth for my custom coding agent workflows, mostly for `Codex`. Skills
 live under `skills/` and custom subagents live under `subagents/`.
-They can be install into  or fetch from another machine's configuration so the agent apps can use the same workflows.
+They can be installed into or fetched from another machine's configuration so
+the agent apps can use the same workflows.
 
 ## Repository layout
 
@@ -16,7 +17,14 @@ subagents/
 scripts/
 ├── codex-skills.sh
 └── codex-subagents.sh
+AGENTS.md
 ```
+
+## Project memory
+
+`AGENTS.md` is the persistent memory for new threads. Read it first when you
+need a quick map of the repository, current inventory, operating rules, and
+maintenance conventions.
 
 ## Quick install
 
@@ -45,6 +53,7 @@ After restart, skills can be invoked by name:
 Use $ssh-git-sync to import commits from my remote worktree.
 Use $deep-learning-paper-code-repro to analyze this paper and repository.
 Use $research-repro-cv-medimg to prepare a reproduction plan.
+Use $oscar-slurm-batch to write an Oscar batch job.
 ```
 
 ## Common commands
@@ -126,6 +135,13 @@ Workflow for importing commits from another reachable worktree without GitHub,
 such as an SSH development machine, remote Linux host, container checkout, or
 mounted path. It fetches into a namespaced ref, compares commit graphs and
 diffs, then chooses fast-forward, merge, cherry-pick, or manual porting.
+
+### `oscar-slurm-batch`
+
+Workflow for creating, reviewing, and refining Slurm batch scripts for Brown
+University's Oscar cluster. It helps choose partitions, CPU/GPU/memory/time
+directives, job arrays, MPI patterns, environment setup, and monitoring
+commands.
 
 ## Subagents
 

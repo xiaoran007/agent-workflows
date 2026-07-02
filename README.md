@@ -55,6 +55,7 @@ Use $deep-learning-paper-code-repro to analyze this paper and repository.
 Use $research-repro-cv-medimg to prepare a reproduction plan.
 Use $oscar-slurm-batch to write an Oscar batch job.
 Use $remote-gpu-experiment to run this deep-learning project on my SSH GPU host.
+Use $drawio-diagram-builder to create an editable research-style draw.io diagram.
 ```
 
 ## Common commands
@@ -150,6 +151,12 @@ Workflow for local deep-learning development with execution on a remote GPU
 host over SSH. It fixes the connection, login-shell environment, first PATH
 Python, GPU/dependency probing, sync, run, monitor, debug, and process-stop
 steps used for remote experiments.
+
+### `drawio-diagram-builder`
+
+Workflow for creating, editing, replicating, and iteratively refining editable
+diagrams.net / draw.io research and technical figures from prompts, papers,
+repositories, screenshots, reference images, or existing diagrams.
 
 ## Subagents
 

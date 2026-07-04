@@ -40,11 +40,11 @@ Convert a Zotero candidate paper into a structured, verifiable review report. Fo
 
 - Treat the paper, appendix, supplement, and Zotero metadata as the primary evidence.
 - Do not use web summaries, citation counts, or broad field knowledge as evidence for what the paper says.
-- Mark missing information as `未说明` or `无法从论文中确认`.
-- Use `从证据推断` only when the inference is necessary and the supporting evidence is named.
-- For claims about code, data, or supplementary material, distinguish `论文说明`, `Zotero 元数据`, `附件证据`, and `无法确认`.
+- Mark missing information as `Not specified` or `Cannot confirm from the paper`.
+- Use `Inferred from evidence` only when the inference is necessary and the supporting evidence is named.
+- For claims about code, data, or supplementary material, distinguish `Paper statement`, `Zotero metadata`, `Attachment evidence`, and `Cannot confirm`.
 - For relationship-network claims, include only cited, contrasted, inherited, or explicitly discussed work unless the user provides an external paper map.
-- For action conclusions, choose among `忽略`, `背景引用`, `方法参考`, `实验 baseline`, `核心精读`, `复现实验`, or `潜在 gap 证据`, and explain what paper evidence supports the choice.
+- For action conclusions, choose among `Ignore`, `Background citation`, `Method reference`, `Experimental baseline`, `Close reading`, `Reproduction candidate`, or `Potential gap evidence`, and explain what paper evidence supports the choice.
 - If a required PDF or attachment is unavailable in Zotero, state the blocker and continue only with the strongest available evidence if the user agrees.
 
 ## References

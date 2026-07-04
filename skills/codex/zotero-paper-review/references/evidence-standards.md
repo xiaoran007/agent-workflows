@@ -4,14 +4,14 @@ Use this reference to keep the review auditable and context-neutral.
 
 ## Evidence Labels
 
-- `论文说明`: Explicitly stated in the main PDF.
-- `附录说明`: Explicitly stated in appendix or supplement.
-- `图表证据`: Supported by a figure, table, equation, or algorithm box.
-- `Zotero 元数据`: Supported only by Zotero metadata.
-- `附件证据`: Supported by a Zotero attachment other than the main PDF.
-- `从证据推断`: Inferred from named evidence; explain the inference.
-- `未说明`: The paper does not state it.
-- `无法从论文中确认`: The available paper artifacts do not confirm it.
+- `Paper statement`: Explicitly stated in the main PDF.
+- `Appendix statement`: Explicitly stated in appendix or supplement.
+- `Visual evidence`: Supported by a figure, table, equation, or algorithm box.
+- `Zotero metadata`: Supported only by Zotero metadata.
+- `Attachment evidence`: Supported by a Zotero attachment other than the main PDF.
+- `Inferred from evidence`: Inferred from named evidence; explain the inference.
+- `Not specified`: The paper does not state it.
+- `Cannot confirm from the paper`: The available paper artifacts do not confirm it.
 
 ## Citation Granularity
 
@@ -72,6 +72,6 @@ Separate these cases:
 - `Inherits from`: the paper explicitly builds on a prior method, dataset, benchmark, theory, or protocol.
 - `Contrasts with`: the paper explicitly argues against or improves on a prior approach.
 - `Uses as baseline`: the paper evaluates against the work.
-- `Later inherited by`: require user-provided context, Zotero evidence, or another explicit source; otherwise write `无法从论文中确认`.
+- `Later inherited by`: require user-provided context, Zotero evidence, or another explicit source; otherwise write `Cannot confirm from the paper`.
 
 Do not infer a paper-map connection unless the user supplies the map or asks for broader research-context mapping.

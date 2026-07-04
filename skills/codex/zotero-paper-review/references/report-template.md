@@ -33,7 +33,7 @@ Use this template for `analysis/<paper-slug>-paper-review.md`.
 | What is the input? |  |  |
 | What is the output? |  |  |
 | What task setting is assumed? |  |  |
-| Is the paper's setting isomorphic to the user's target problem? | 未说明 unless the user supplied that target problem |  |
+| Is the paper's setting isomorphic to the user's target problem? | Not specified unless the user supplied that target problem |  |
 
 ## 4. Core Assumptions
 
@@ -50,7 +50,7 @@ Use this template for `analysis/<paper-slug>-paper-review.md`.
 
 | Component | Role / Subproblem | Evidence | Novelty Assessment |
 | --- | --- | --- | --- |
-|  |  |  | New modeling view / engineering composition / reused component / 未说明 |
+|  |  |  | New modeling view / engineering composition / reused component / Not specified |
 
 Summarize the mechanism in a short paragraph after the table. Distinguish what the paper claims is new from what appears to be reused.
 
@@ -58,7 +58,7 @@ Summarize the mechanism in a short paragraph after the table. Distinguish what t
 
 | Claim | Dataset / Split | Metric | Baseline | Ablation / Significance | Evidence | Supported? |
 | --- | --- | --- | --- | --- | --- | --- |
-|  |  |  |  |  |  | Supported / Partially supported / Not supported / 无法确认 |
+|  |  |  |  |  |  | Supported / Partially supported / Not supported / Cannot confirm |
 
 After the table, state whether the main claims are actually supported by the reported experiments.
 
@@ -81,20 +81,20 @@ After the table, state whether the main claims are actually supported by the rep
 | Inherits from |  |  |  |
 | Contrasts with / refutes |  |  |  |
 | Builds benchmark/data from |  |  |  |
-| Later inherited by | 无法从论文中确认 unless supported by provided external context |  |  |
-| Existing paper-map node | 未说明 unless the user provides a paper map |  |  |
+| Later inherited by | Cannot confirm from the paper unless supported by provided external context |  |  |
+| Existing paper-map node | Not specified unless the user provides a paper map |  |  |
 
 ## 9. Action Conclusion
 
 Choose one or more labels:
 
-- `忽略`
-- `背景引用`
-- `方法参考`
-- `实验 baseline`
-- `核心精读`
-- `复现实验`
-- `潜在 gap 证据`
+- `Ignore`
+- `Background citation`
+- `Method reference`
+- `Experimental baseline`
+- `Close reading`
+- `Reproduction candidate`
+- `Potential gap evidence`
 
 | Recommendation | Evidence Basis | What To Do Next |
 | --- | --- | --- |

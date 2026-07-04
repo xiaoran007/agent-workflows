@@ -12,7 +12,7 @@ Convert a Zotero candidate paper into a structured, verifiable review report. Fo
 ## Workflow
 
 1. Resolve Zotero access and the target item.
-   - Invoke [$Zotero](/Users/xiaoran/.codex/plugins/cache/openai-curated-remote/zotero/0.1.2/skills/zotero/SKILL.md).
+   - Use the available Zotero skill or Zotero local workflow.
    - Run the Zotero readiness flow first, then search by the exact title supplied by the user.
    - If multiple plausible items match, stop and ask the user to choose. Do not silently pick a near match.
    - Record the Zotero item key, title, creators, year, venue, DOI/arXiv identifier if available, URL, tags, collections, and attachment keys.
@@ -23,7 +23,7 @@ Convert a Zotero candidate paper into a structured, verifiable review report. Fo
    - If the project has no `analysis/` directory, create it when writing the report or copied PDF.
    - Keep supplementary PDFs, appendices, or extra material in the same temporary folder with clear filenames.
 3. Read the copied paper visually.
-   - Invoke [$pdf](/Users/xiaoran/.codex/skills/pdf/SKILL.md) for a visual-first PDF workflow.
+   - Use the available PDF skill or another layout-preserving PDF workflow.
    - Inspect the rendered title/abstract, method figures, result tables, equations, algorithm boxes, captions, footnotes, limitations, and appendices.
    - Use extracted text only as a search aid after visual inspection.
 4. Extract evidence into the review structure.

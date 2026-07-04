@@ -22,7 +22,7 @@ Export BibTeX through the Better BibTeX HTTP endpoints so BBT citation keys and 
 
 1. Resolve the Zotero item key.
    - If the user supplies a Zotero item key such as `NCZC4ZKE`, use it directly.
-   - If the user supplies only a title or query, invoke [$Zotero](/Users/xiaoran/.codex/plugins/cache/openai-curated-remote/zotero/0.1.2/skills/zotero/SKILL.md) to search Zotero and identify the exact item key.
+   - If the user supplies only a title or query, use the available Zotero skill or Zotero local search workflow to identify the exact item key.
    - Use Zotero's Local API only for lookup or disambiguation, not for the final BibTeX export.
 2. Get the BBT citation key.
 

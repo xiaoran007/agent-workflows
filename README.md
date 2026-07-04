@@ -56,6 +56,7 @@ Use $research-repro-cv-medimg to prepare a reproduction plan.
 Use $oscar-slurm-batch to write an Oscar batch job.
 Use $remote-gpu-experiment to run this deep-learning project on my SSH GPU host.
 Use $drawio-diagram-builder to create an editable research-style draw.io diagram.
+Use $zotero-paper-review to review a Zotero candidate paper from its copied PDF.
 ```
 
 ## Common commands
@@ -157,6 +158,12 @@ steps used for remote experiments.
 Workflow for creating, editing, replicating, and iteratively refining editable
 diagrams.net / draw.io research and technical figures from prompts, papers,
 repositories, screenshots, reference images, or existing diagrams.
+
+### `zotero-paper-review`
+
+Workflow for reviewing a Zotero candidate paper from a user-provided title. It
+finds the item in Zotero, copies the PDF into the project before processing,
+reads the paper visually, and writes a source-grounded evidence audit report.
 
 ## Subagents
 

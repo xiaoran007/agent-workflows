@@ -1,0 +1,4 @@
+interface:
+  display_name: "Zotero Paper Review"
+  short_description: "Review Zotero papers with source evidence"
+  default_prompt: "Use $zotero-paper-review to find this paper in Zotero, copy its PDF into the project, and write a source-grounded review."

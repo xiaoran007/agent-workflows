@@ -1,0 +1,4 @@
+interface:
+  display_name: "Zotero BBT BibTeX"
+  short_description: "Export BibTeX through Better BibTeX"
+  default_prompt: "Use $zotero-bbt-bibtex to export the correct Better BibTeX entry for this Zotero item key."

@@ -57,6 +57,7 @@ Use $oscar-slurm-batch to write an Oscar batch job.
 Use $remote-gpu-experiment to run this deep-learning project on my SSH GPU host.
 Use $drawio-diagram-builder to create an editable research-style draw.io diagram.
 Use $zotero-paper-review to review a Zotero candidate paper from its copied PDF.
+Use $zotero-bbt-bibtex to export a Zotero item through Better BibTeX.
 ```
 
 ## Common commands
@@ -164,6 +165,12 @@ repositories, screenshots, reference images, or existing diagrams.
 Workflow for reviewing a Zotero candidate paper from a user-provided title. It
 finds the item in Zotero, copies the PDF into the project before processing,
 reads the paper visually, and writes a source-grounded evidence audit report.
+
+### `zotero-bbt-bibtex`
+
+Workflow for exporting one or more Zotero items through Better BibTeX. It uses
+BBT JSON-RPC to resolve citation keys and `/better-bibtex/export/item` with
+`translator=bibtex` and `worker=false` so BBT export preferences are respected.
 
 ## Subagents
 

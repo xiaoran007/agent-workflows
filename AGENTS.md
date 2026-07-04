@@ -21,6 +21,7 @@ Tracked skills:
 - `remote-gpu-experiment`: local deep-learning development with SSH remote GPU execution, probing, sync, run, monitor, debug, and process-stop workflow.
 - `drawio-diagram-builder`: create, edit, replicate, and iteratively refine editable diagrams.net / draw.io research and technical figures.
 - `zotero-paper-review`: find a Zotero candidate paper by title, copy its PDF into the project, and write a source-grounded structured review report.
+- `zotero-bbt-bibtex`: export Zotero items through Better BibTeX using BBT JSON-RPC, `translator=bibtex`, and `worker=false`.
 
 Tracked subagents:
 

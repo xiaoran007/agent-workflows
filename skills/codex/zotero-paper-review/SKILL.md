@@ -15,7 +15,8 @@ Convert a Zotero candidate paper into a structured, verifiable review report. Fo
    - Use the available Zotero skill or Zotero local workflow.
    - Run the Zotero readiness flow first, then search by the exact title supplied by the user.
    - If multiple plausible items match, stop and ask the user to choose. Do not silently pick a near match.
-   - Record the Zotero item key, title, creators, year, venue, DOI/arXiv identifier if available, URL, tags, collections, and attachment keys.
+   - Use the `zotero-bbt-bibtex` skill to export the paper's BibTeX entry through Better BibTeX from the resolved Zotero item key.
+   - Record the Zotero item key, Better BibTeX citation key, full BibTeX entry, title, creators, year, venue, DOI/arXiv identifier if available, URL, tags, collections, and attachment keys.
 2. Retrieve the PDF and copy it into the project before reading.
    - Use Zotero attachment commands to identify the PDF attachment path or file URL.
    - Copy the PDF into `analysis/_tmp/zotero-paper-review/<paper-slug>/paper.pdf` under the current project root before any PDF processing.
@@ -32,7 +33,7 @@ Convert a Zotero candidate paper into a structured, verifiable review report. Fo
    - Prefer paper sections, page numbers, figures, tables, equations, and appendix locations over loose paraphrase.
 5. Write the report.
    - Unless the user asks for an inline-only answer, write `analysis/<paper-slug>-paper-review.md`.
-   - Include the copied PDF path, Zotero item key, and every source artifact used.
+   - Include the copied PDF path, Zotero item key, Better BibTeX citation key, full BibTeX entry, and every source artifact used.
    - Keep the report neutral to the user's research agenda. Do not map the paper into a broader research context unless the user explicitly provides that context.
    - Separate paper evidence from reader-facing action recommendations.
 

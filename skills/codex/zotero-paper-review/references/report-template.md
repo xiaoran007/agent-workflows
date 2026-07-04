@@ -6,6 +6,7 @@ Use this template for `analysis/<paper-slug>-paper-review.md`.
 
 - User-provided title:
 - Zotero item key:
+- Better BibTeX citation key:
 - Zotero metadata used:
 - Copied PDF path:
 - Supplementary attachments:
@@ -20,10 +21,19 @@ Use this template for `analysis/<paper-slug>-paper-review.md`.
 | Year |  |  |
 | Venue |  |  |
 | DOI / arXiv / URL |  |  |
+| BibTeX | See the fenced `bibtex` block below this Identity table. | BBT export via `zotero-bbt-bibtex`; include citation key and export command details if available. |
 | Field position |  |  |
 | Code availability |  |  |
 | Data availability |  |  |
 | Paper type | survey / method / dataset / benchmark / theory / application / other |  |
+
+### BibTeX Entry
+
+Include the full Better BibTeX export entry.
+
+```bibtex
+
+```
 
 ## 3. Problem Definition
 

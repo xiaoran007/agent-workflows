@@ -91,8 +91,9 @@ Use $zotero-bbt-bibtex to export a Zotero item through Better BibTeX.
 `scan` reports `same`, `changed`, `missing-local`, or `local-only`. Add
 `--details` to show the repository git version plus repository and local
 modified dates. Add `--diff` to print content diffs for changed items. The
-scripts accept either repository paths or item names. Set custom config roots
-when needed:
+skills scanner ignores Python bytecode/cache artifacts such as `__pycache__/`,
+`*.pyc`, and `*.pyo`. The scripts accept either repository paths or item names.
+Set custom config roots when needed:
 
 ```bash
 AGENTS_HOME=/path/to/.agents ./scripts/codex-skills.sh install --all

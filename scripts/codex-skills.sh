@@ -59,6 +59,13 @@ stat_mtime_epoch() {
   stat -f '%m' "$path" 2>/dev/null || stat -c '%Y' "$path" 2>/dev/null || printf '0\n'
 }
 
+skill_find_source_files() {
+  local path="$1"
+  find "$path" \
+    \( -type d -name '__pycache__' \) -prune -o \
+    -type f ! -name '*.pyc' ! -name '*.pyo' -print0
+}
+
 latest_mtime_epoch() {
   local path="$1"
   local latest=0
@@ -80,7 +87,7 @@ latest_mtime_epoch() {
     if [[ "$mtime" =~ ^[0-9]+$ && "$mtime" -gt "$latest" ]]; then
       latest="$mtime"
     fi
-  done < <(find "$path" -type f -print0)
+  done < <(skill_find_source_files "$path")
 
   if [[ "$latest" == "0" ]]; then
     stat_mtime_epoch "$path"
@@ -118,6 +125,31 @@ repo_version_for_path() {
   else
     printf 'untracked\n'
   fi
+}
+
+skill_diff_quiet() {
+  local src="$1"
+  local dest="$2"
+  diff -qr -x '__pycache__' -x '*.pyc' -x '*.pyo' "$src" "$dest" >/dev/null
+}
+
+skill_diff_verbose() {
+  local src="$1"
+  local dest="$2"
+  diff -ruN -x '__pycache__' -x '*.pyc' -x '*.pyo' "$src" "$dest"
+}
+
+remove_skill_cache_artifacts() {
+  local path="$1"
+  [[ -d "$path" ]] || return
+
+  if [[ "$dry_run" == "1" ]]; then
+    printf 'would remove Python cache artifacts under %s\n' "$path"
+    return
+  fi
+
+  find "$path" -type d -name '__pycache__' -prune -exec rm -rf {} +
+  find "$path" -type f \( -name '*.pyc' -o -name '*.pyo' \) -delete
 }
 
 skill_name_from_path() {
@@ -234,7 +266,7 @@ scan_skill() {
   local status
 
   if [[ -d "$src" && -f "$src/SKILL.md" && -d "$dest" && -f "$dest/SKILL.md" ]]; then
-    if diff -qr "$src" "$dest" >/dev/null; then
+    if skill_diff_quiet "$src" "$dest"; then
       status="same"
     else
       status="changed"
@@ -254,7 +286,7 @@ scan_skill() {
   fi
 
   if [[ "$scan_diff" == "1" && "$status" == "changed" ]]; then
-    diff -ruN "$src" "$dest" || true
+    skill_diff_verbose "$src" "$dest" || true
   fi
 }
 
@@ -276,6 +308,7 @@ copy_from_local() {
   run mkdir -p "$source_root"
   run rm -rf "$repo_path"
   run cp -R "$local_path" "$repo_path"
+  remove_skill_cache_artifacts "$repo_path"
   if [[ "$dry_run" == "1" ]]; then
     printf 'would copy %s -> %s\n' "$local_path" "$repo_path"
   else

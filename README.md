@@ -71,6 +71,10 @@ Use $zotero-bbt-bibtex to export a Zotero item through Better BibTeX.
 ./scripts/codex-skills.sh scan --all
 ./scripts/codex-subagents.sh scan --all
 
+# Include repository version, modified dates, and diffs
+./scripts/codex-skills.sh scan ssh-git-sync --details --diff
+./scripts/codex-subagents.sh scan git-branch-auditor --details --diff
+
 # Install or update one item
 ./scripts/codex-skills.sh install skills/codex/ssh-git-sync
 ./scripts/codex-subagents.sh install subagents/codex/git-branch-auditor.toml
@@ -84,9 +88,11 @@ Use $zotero-bbt-bibtex to export a Zotero item through Better BibTeX.
 ./scripts/codex-subagents.sh copy git-branch-auditor --dry-run
 ```
 
-`scan` reports `same`, `changed`, `missing-local`, or `local-only`. The scripts
-accept either repository paths or item names. Set custom config roots when
-needed:
+`scan` reports `same`, `changed`, `missing-local`, or `local-only`. Add
+`--details` to show the repository git version plus repository and local
+modified dates. Add `--diff` to print content diffs for changed items. The
+scripts accept either repository paths or item names. Set custom config roots
+when needed:
 
 ```bash
 AGENTS_HOME=/path/to/.agents ./scripts/codex-skills.sh install --all

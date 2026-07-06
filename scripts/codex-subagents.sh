@@ -7,6 +7,8 @@ codex_home="${CODEX_HOME:-$HOME/.codex}"
 dest_root="$codex_home/agents"
 dry_run=0
 project_root=""
+scan_details=0
+scan_diff=0
 
 usage() {
   cat <<'EOF'
@@ -21,6 +23,8 @@ Options:
   --all             Operate on every custom agent under subagents/codex.
   -p, --project PATH
                     Install to PATH/.codex/agents instead of ~/.codex/agents.
+  --details         With scan, show repository version and local/repository dates.
+  --diff            With scan, show file diffs for changed custom agents.
   -n, --dry-run     Print actions without changing files.
   -h, --help        Show this help.
 
@@ -28,6 +32,7 @@ Examples:
   scripts/codex-subagents.sh install --all
   scripts/codex-subagents.sh update subagents/codex/reviewer.toml
   scripts/codex-subagents.sh scan --all
+  scripts/codex-subagents.sh scan reviewer --details --diff
   scripts/codex-subagents.sh copy reviewer
   scripts/codex-subagents.sh remove reviewer
   scripts/codex-subagents.sh install --all --project /path/to/repo
@@ -50,6 +55,51 @@ run() {
 die() {
   printf 'error: %s\n' "$*" >&2
   exit 1
+}
+
+stat_mtime_epoch() {
+  local path="$1"
+  stat -f '%m' "$path" 2>/dev/null || stat -c '%Y' "$path" 2>/dev/null || printf '0\n'
+}
+
+latest_mtime_epoch() {
+  local path="$1"
+  if [[ -e "$path" ]]; then
+    stat_mtime_epoch "$path"
+  else
+    printf '0\n'
+  fi
+}
+
+format_epoch() {
+  local epoch="$1"
+  if [[ ! "$epoch" =~ ^[0-9]+$ || "$epoch" == "0" ]]; then
+    printf '-\n'
+    return
+  fi
+
+  date -r "$epoch" '+%Y-%m-%d %H:%M:%S %z' 2>/dev/null ||
+    date -d "@$epoch" '+%Y-%m-%d %H:%M:%S %z' 2>/dev/null ||
+    printf '%s\n' "$epoch"
+}
+
+repo_version_for_path() {
+  local path="$1"
+  local rel
+  local version
+
+  if [[ ! -e "$path" ]]; then
+    printf '-\n'
+    return
+  fi
+
+  rel="${path#$repo_root/}"
+  version="$(git -C "$repo_root" log -1 --format='%h %cs' -- "$rel" 2>/dev/null || true)"
+  if [[ -n "$version" ]]; then
+    printf '%s\n' "$version"
+  else
+    printf 'untracked\n'
+  fi
 }
 
 agent_name_from_path() {
@@ -155,20 +205,40 @@ scan_agent() {
   local name="$1"
   local src="$source_root/$name.toml"
   local dest="$dest_root/$name.toml"
+  local status
 
   if [[ -f "$src" && -f "$dest" ]]; then
     if cmp -s "$src" "$dest"; then
-      printf 'same %s\n' "$name"
+      status="same"
     else
-      printf 'changed %s\n' "$name"
+      status="changed"
     fi
   elif [[ -f "$src" ]]; then
-    printf 'missing-local %s\n' "$name"
+    status="missing-local"
   elif [[ -f "$dest" ]]; then
-    printf 'local-only %s\n' "$name"
+    status="local-only"
   else
-    printf 'missing-both %s\n' "$name"
+    status="missing-both"
   fi
+
+  printf '%s %s\n' "$status" "$name"
+
+  if [[ "$scan_details" == "1" ]]; then
+    print_scan_details "$src" "$dest"
+  fi
+
+  if [[ "$scan_diff" == "1" && "$status" == "changed" ]]; then
+    diff -u "$src" "$dest" || true
+  fi
+}
+
+print_scan_details() {
+  local src="$1"
+  local dest="$2"
+
+  printf '  repo_version: %s\n' "$(repo_version_for_path "$src")"
+  printf '  repo_modified: %s\n' "$(format_epoch "$(latest_mtime_epoch "$src")")"
+  printf '  local_modified: %s\n' "$(format_epoch "$(latest_mtime_epoch "$dest")")"
 }
 
 copy_from_local() {
@@ -220,6 +290,12 @@ while [[ $# -gt 0 ]]; do
       [[ $# -gt 0 ]] || die "--project requires a path"
       project_root="$1"
       ;;
+    --details)
+      scan_details=1
+      ;;
+    --diff)
+      scan_diff=1
+      ;;
     -n|--dry-run)
       dry_run=1
       ;;
@@ -242,6 +318,10 @@ done
 
 if [[ -n "$project_root" ]]; then
   dest_root="$project_root/.codex/agents"
+fi
+
+if [[ "$command" != "scan" && ( "$scan_details" == "1" || "$scan_diff" == "1" ) ]]; then
+  die "--details and --diff can only be used with scan"
 fi
 
 if [[ "$use_all" == "1" && "${#targets[@]}" -gt 0 ]]; then

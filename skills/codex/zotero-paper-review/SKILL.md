@@ -1,6 +1,6 @@
 ---
 name: zotero-paper-review
-description: Source-grounded Zotero candidate-paper review workflow. Use when the user gives a paper title and wants Codex to locate the item in Zotero, copy the paper PDF into the current project before processing, read the full paper and attachments, and produce a structured, context-neutral evidence audit covering identity, problem definition, assumptions, method, experimental evidence, limitations, relationship network, and action recommendation.
+description: Source-grounded Zotero candidate-paper review workflow. Use when the user gives a paper title and wants Codex to locate the item in Zotero, copy the paper PDF into the current project before processing, read the full paper and attachments, and produce a structured, context-neutral evidence audit. Supports both non-survey research papers and survey/review papers, including survey-specific review notes about scope, literature selection, taxonomy, representative works, trends, gaps, coverage risks, and paper-map seed value.
 ---
 
 # Zotero Paper Review
@@ -28,11 +28,14 @@ Convert a Zotero candidate paper into a structured, verifiable review report. Fo
    - Inspect the rendered title/abstract, method figures, result tables, equations, algorithm boxes, captions, footnotes, limitations, and appendices.
    - Use extracted text only as a search aid after visual inspection.
 4. Extract evidence into the review structure.
-   - Read `references/report-template.md` before drafting the report.
+   - Determine the paper type before choosing a template.
+   - For method, dataset, benchmark, theory, or application papers, read `references/report-template.md` before drafting the report.
+   - For survey, review, systematic review, scoping review, meta-analysis, tutorial survey, benchmark overview, or position-style survey papers, read `references/survey-report-template.md` before drafting the report.
    - Read `references/evidence-standards.md` while deciding whether a claim is supported, partially supported, inferred, or unconfirmed.
    - Prefer paper sections, page numbers, figures, tables, equations, and appendix locations over loose paraphrase.
    - For non-survey papers, include a short narrative statement in every report section before any table.
    - For non-survey papers, include dedicated `Data Flow` and `Experiments` sections before the evidence-chain audit.
+   - For survey papers, audit domain boundaries, corpus construction, taxonomy, representative and notable works, trends, controversies, gaps, coverage risks, and whether the survey is a reliable field entry point or primary-paper seed set.
 5. Write the report.
    - Unless the user asks for an inline-only answer, write `analysis/<paper-slug>-paper-review.md`.
    - Keep `Source Artifacts` lightweight: user-provided title, Zotero item key, Better BibTeX citation key, report date, whether visual review was used, and primary evidence types reviewed.
@@ -54,5 +57,6 @@ Convert a Zotero candidate paper into a structured, verifiable review report. Fo
 
 ## References
 
-- Read `references/report-template.md` before writing the final paper review.
+- Read `references/report-template.md` before writing a non-survey paper review.
+- Read `references/survey-report-template.md` before writing a survey or review-paper review.
 - Read `references/evidence-standards.md` while auditing claims and uncertainty.

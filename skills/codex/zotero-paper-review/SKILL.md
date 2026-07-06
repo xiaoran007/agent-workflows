@@ -31,9 +31,13 @@ Convert a Zotero candidate paper into a structured, verifiable review report. Fo
    - Read `references/report-template.md` before drafting the report.
    - Read `references/evidence-standards.md` while deciding whether a claim is supported, partially supported, inferred, or unconfirmed.
    - Prefer paper sections, page numbers, figures, tables, equations, and appendix locations over loose paraphrase.
+   - For non-survey papers, include a short narrative statement in every report section before any table.
+   - For non-survey papers, include dedicated `Data Flow` and `Experiments` sections before the evidence-chain audit.
 5. Write the report.
    - Unless the user asks for an inline-only answer, write `analysis/<paper-slug>-paper-review.md`.
-   - Include the copied PDF path, Zotero item key, Better BibTeX citation key, full BibTeX entry, and every source artifact used.
+   - Keep `Source Artifacts` lightweight: user-provided title, Zotero item key, Better BibTeX citation key, report date, whether visual review was used, and primary evidence types reviewed.
+   - Do not list temporary copied PDF paths, rendered page-image paths, OCR files, or extraction artifacts in the report unless they are needed to explain a blocker.
+   - Include the Zotero item key, Better BibTeX citation key, and full BibTeX entry.
    - Keep the report neutral to the user's research agenda. Do not map the paper into a broader research context unless the user explicitly provides that context.
    - Separate paper evidence from reader-facing action recommendations.
 

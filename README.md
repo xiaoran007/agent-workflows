@@ -58,6 +58,7 @@ Use $remote-gpu-experiment to run this deep-learning project on my SSH GPU host.
 Use $drawio-diagram-builder to create an editable research-style draw.io diagram.
 Use $zotero-paper-review to review a Zotero candidate paper from its copied PDF.
 Use $zotero-bbt-bibtex to export a Zotero item through Better BibTeX.
+Use $qmd-revealjs-to-pptx to create an editable PowerPoint deck from Quarto revealjs slides.
 ```
 
 ## Common commands
@@ -178,6 +179,12 @@ reads the paper visually, and writes a source-grounded evidence audit report.
 Workflow for exporting one or more Zotero items through Better BibTeX. It uses
 BBT JSON-RPC to resolve citation keys and `/better-bibtex/export/item` with
 `translator=bibtex` and `worker=false` so BBT export preferences are respected.
+
+### `qmd-revealjs-to-pptx`
+
+Workflow for creating editable PowerPoint decks from Quarto revealjs slides by
+using the rendered HTML deck as the visual source of truth, rebuilding slides
+with artifact-tool, and iterating through rendered visual QA.
 
 ## Subagents
 

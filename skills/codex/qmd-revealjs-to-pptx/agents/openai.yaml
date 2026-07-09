@@ -1,0 +1,4 @@
+interface:
+  display_name: "QMD RevealJS to PPTX"
+  short_description: "Create editable PPTX from Quarto revealjs decks"
+  default_prompt: "Use $qmd-revealjs-to-pptx to create an editable PowerPoint deck from my Quarto revealjs slides."

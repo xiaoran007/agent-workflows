@@ -27,6 +27,7 @@ Tracked skills:
 Tracked subagents:
 
 - `git-branch-auditor`: read-only Git branch, remote, tracking, and divergence auditor.
+- `plan-conformance-reviewer`: read-only implementation reviewer that checks completed code against an authoritative plan and reports evidence-backed conformance gaps.
 
 ## Install And Sync
 

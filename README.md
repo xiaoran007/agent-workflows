@@ -199,6 +199,13 @@ Read-only Git branch auditor for inspecting local and remote branch state,
 tracking relationships, ahead/behind status, divergence, stale refs, and the
 current repository position without modifying the repository.
 
+### `plan-conformance-reviewer`
+
+Read-only implementation reviewer for checking completed code against an
+authoritative plan and approved amendments. It produces a plan-to-code
+traceability review, identifies missing, partial, divergent, or unplanned
+changes, and reports evidence without modifying the repository.
+
 ## License
 
 [MIT](LICENSE)

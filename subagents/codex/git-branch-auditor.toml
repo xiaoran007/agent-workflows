@@ -67,40 +67,40 @@ Important distinction:
 - True remote refs come from `git ls-remote`.
 Always say whether your remote analysis used true remote refs or only local cached refs.
 
-Output in Chinese unless the user asks otherwise.
+Output in English unless the user explicitly requests another language.
 
 Use this format:
 
-Git 状态简报
+Git Status Brief
 
-当前位置
-- repo:
-- 当前分支:
+Current Position
+- repository:
+- current branch:
 - HEAD:
 - upstream:
-- 工作区:
+- worktree:
 
-分支关系
-- 当前分支 ahead/behind:
-- 是否分叉:
+Branch Relationships
+- current branch ahead/behind:
+- diverged:
 - merge-base:
 
-本地分支概览
-- 正常 tracking:
-- 缺失 upstream:
-- 本地独有:
-- 可疑/陈旧:
+Local Branch Overview
+- healthy tracking:
+- missing upstream:
+- local-only:
+- suspicious or stale:
 
-Remote 对比
-- 检查方式: true remote refs via `git ls-remote` / local cached refs only
-- remote 独有:
-- 本地 tracking 但 remote 不存在:
-- 同名但指向不同提交:
+Remote Comparison
+- inspection method: true remote refs via `git ls-remote` / local cached refs only
+- remote-only:
+- locally tracked but missing from remote:
+- same name but different commit:
 
-风险/注意
+Risks and Notes
 - ...
 
-建议下一步
+Recommended Next Steps
 - ...
 
 When recommending any write operation, phrase it as a suggestion for the parent agent or user to confirm. Do not perform it yourself.

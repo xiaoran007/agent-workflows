@@ -14,8 +14,8 @@ New threads should read this file and `README.md` before editing.
 
 Tracked skills:
 
-- `deep-learning-paper-code-repro`: deep learning paper/code reproduction workflow with visual PDF reading and detailed `analysis/` reports.
-- `research-repro-cv-medimg`: source-grounded CV and medical imaging paper/repository reproduction analysis.
+- `deep-learning-paper-code-repro`: explicit-invocation-only deep learning paper/code reproduction workflow with visual PDF reading and detailed `analysis/` reports.
+- `research-repro-cv-medimg`: explicit-invocation-only source-grounded CV and medical imaging paper/repository reproduction analysis.
 - `ssh-git-sync`: import and integrate commits from another reachable worktree without GitHub.
 - `oscar-slurm-batch`: create and review Brown Oscar Slurm batch scripts and job guidance.
 - `remote-gpu-experiment`: local deep-learning development with SSH remote GPU execution, probing, sync, run, monitor, debug, and process-stop workflow.

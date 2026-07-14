@@ -1,6 +1,6 @@
 ---
 name: deep-learning-paper-code-repro
-description: 固定化深度学习论文与代码复现工作流。Use when Codex needs to reproduce or deeply analyze a deep learning paper together with its repository, especially when a paper PDF already exists in the project, has been renamed after the proposed method or model, and the task requires visual-first PDF reading, README-first repository inspection, inference-first code tracing, a remote-Linux-cluster execution assumption instead of local execution, and a detailed method-implementation-reproducibility report under analysis/.
+description: Opt-in fixed workflow for reproducing or deeply analyzing a deep learning paper together with its repository through visual-first PDF reading, README-first inspection, inference-first code tracing, remote-Linux execution assumptions, and a detailed report under analysis/. Never select or load this skill from inferred task intent. Use it only when the user explicitly names `deep-learning-paper-code-repro` or invokes `$deep-learning-paper-code-repro`.
 ---
 
 # Deep Learning Paper Repro

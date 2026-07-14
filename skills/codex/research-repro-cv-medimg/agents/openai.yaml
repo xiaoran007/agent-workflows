@@ -1,4 +1,7 @@
 interface:
   display_name: "Research Repro for CV MedImg"
-  short_description: "Read papers and repos for reproducible CV/MedImg research"
+  short_description: "Opt-in paper/repo reproduction workflow for CV/MedImg"
   default_prompt: "Use $research-repro-cv-medimg to read this paper and repo, extract the experimental setup, and prepare a reproduction plan."
+
+policy:
+  allow_implicit_invocation: false

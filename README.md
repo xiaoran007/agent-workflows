@@ -129,17 +129,18 @@ workflow and any supporting references or agent presets.
 
 ### `deep-learning-paper-code-repro`
 
-Fixed workflow for deep learning paper and code reproduction. It reads a paper
-PDF visually, inspects the repository from README to execution paths, assumes a
-remote Linux cluster as the real runtime target, and writes a detailed report
-under `analysis/`.
+Explicit-invocation-only workflow for deep learning paper and code reproduction.
+It reads a paper PDF visually, inspects the repository from README to execution
+paths, assumes a remote Linux cluster as the real runtime target, and writes a
+detailed report under `analysis/`.
 
 ### `research-repro-cv-medimg`
 
-Deep reading workflow for computer vision and medical imaging papers with their
-experiment repositories. It reconstructs methods, training and evaluation setup,
-hidden reproduction details, and reliable next-step plans for reproduction,
-modification, ablation, or comparison experiments.
+Explicit-invocation-only deep reading workflow for computer vision and medical
+imaging papers with their experiment repositories. It reconstructs methods,
+training and evaluation setup, hidden reproduction details, and reliable
+next-step plans for reproduction, modification, ablation, or comparison
+experiments.
 
 ### `ssh-git-sync`
 

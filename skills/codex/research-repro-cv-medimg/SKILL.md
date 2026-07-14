@@ -1,6 +1,6 @@
 ---
 name: research-repro-cv-medimg
-description: Deep reading of deep learning, computer vision, and medical imaging papers together with their experiment repositories. Use when Codex needs to read a paper PDF, arXiv page, appendix, or codebase; reconstruct the real implementation and training/evaluation setup; identify hidden reproduction details; and prepare a reliable plan for reproduction, modification, ablation, or comparison experiments.
+description: Opt-in workflow for deep, source-grounded reading of computer vision and medical imaging papers together with their experiment repositories, including implementation reconstruction, reproduction risks, and plans for reproduction, modification, ablation, or comparison. Never select or load this skill from inferred task intent. Use it only when the user explicitly names `research-repro-cv-medimg` or invokes `$research-repro-cv-medimg`.
 ---
 
 # Research Repro for CV and MedImg

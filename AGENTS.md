@@ -20,6 +20,7 @@ Tracked skills:
 - `oscar-slurm-batch`: create and review Brown Oscar Slurm batch scripts and job guidance.
 - `remote-gpu-experiment`: local deep-learning development with SSH remote GPU execution, probing, sync, run, monitor, debug, and process-stop workflow.
 - `drawio-diagram-builder`: create, edit, replicate, and iteratively refine editable diagrams.net / draw.io research and technical figures.
+- `drawio-reference-replica`: explicit-invocation-only bitmap-to-draw.io strict replication workflow with full-image chunking, atomic component vectorization, component assembly, local CLI rendering, and one-to-one visual review against the reference.
 - `zotero-paper-review`: find a Zotero candidate paper by title, copy its PDF into the project, and write a source-grounded structured review report.
 - `zotero-bbt-bibtex`: export Zotero items through Better BibTeX using BBT JSON-RPC, `translator=bibtex`, and `worker=false`.
 - `qmd-revealjs-to-pptx`: create editable PowerPoint decks from Quarto revealjs slides using the rendered HTML as the visual reference.

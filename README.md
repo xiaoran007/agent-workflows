@@ -56,6 +56,7 @@ Use $research-repro-cv-medimg to prepare a reproduction plan.
 Use $oscar-slurm-batch to write an Oscar batch job.
 Use $remote-gpu-experiment to run this deep-learning project on my SSH GPU host.
 Use $drawio-diagram-builder to create an editable research-style draw.io diagram.
+Use $drawio-reference-replica to strictly rebuild my bitmap reference as editable draw.io components and a complete replica.
 Use $zotero-paper-review to review a Zotero candidate paper from its copied PDF.
 Use $zotero-bbt-bibtex to export a Zotero item through Better BibTeX.
 Use $qmd-revealjs-to-pptx to create an editable PowerPoint deck from Quarto revealjs slides.
@@ -168,6 +169,15 @@ steps used for remote experiments.
 Workflow for creating, editing, replicating, and iteratively refining editable
 diagrams.net / draw.io research and technical figures from prompts, papers,
 repositories, screenshots, reference images, or existing diagrams.
+
+### `drawio-reference-replica`
+
+Explicit-invocation-only workflow for strictly reproducing a user-provided
+bitmap reference as an editable draw.io diagram. It partitions the full image
+into traceable reference chunks, vectorizes grouped atomic components on a
+dedicated component page, assembles those components into the complete replica,
+renders the result with the local draw.io Desktop CLI, and reviews every mapped
+object one-to-one against the original before handoff.
 
 ### `zotero-paper-review`
 

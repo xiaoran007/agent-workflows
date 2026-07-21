@@ -1,0 +1,6 @@
+interface:
+  display_name: "Draw.io Reference Replica"
+  short_description: "Rebuild bitmap references as editable draw.io"
+  default_prompt: "Use $drawio-reference-replica to slice my bitmap reference into chunks, vectorize atomic components, assemble the complete draw.io replica, and review every mapped element against the original."
+policy:
+  allow_implicit_invocation: false

@@ -203,6 +203,14 @@ Codex custom subagents are standalone TOML files under `subagents/codex/`.
 Each file defines one reusable agent and should include `name`, `description`,
 and `developer_instructions`.
 
+### `plan-implementation-worker`
+
+Focused write-enabled implementation agent for executing an approved,
+authoritative implementation plan. It uses GPT-5.6 Terra with high reasoning,
+keeps exploration and changes within an explicitly assigned scope, preserves
+pre-existing work, runs only required validation, and returns an
+evidence-based handoff for independent parent review.
+
 ### `git-branch-auditor`
 
 Read-only Git branch auditor for inspecting local and remote branch state,

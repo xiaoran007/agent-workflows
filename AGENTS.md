@@ -27,6 +27,7 @@ Tracked skills:
 
 Tracked subagents:
 
+- `plan-implementation-worker`: focused GPT-5.6 Terra high implementation agent that executes an approved plan within assigned ownership and returns evidence for independent parent review.
 - `git-branch-auditor`: read-only Git branch, remote, tracking, and divergence auditor.
 - `plan-conformance-reviewer`: read-only implementation reviewer that checks completed code against an authoritative plan and reports evidence-backed conformance gaps.
 

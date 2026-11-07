@@ -52,6 +52,7 @@ After restart, skills can be invoked by name:
 ```text
 Use $ssh-git-sync to import commits from my remote worktree.
 Use $oscar-slurm-batch to write an Oscar batch job.
+Use $oscar-remote-debug to sync my local changes and debug on Oscar.
 Use $remote-gpu-experiment to run this deep-learning project on my SSH GPU host.
 Use $drawio-diagram-builder to create an editable research-style draw.io diagram.
 Use $drawio-reference-replica to strictly rebuild my bitmap reference as editable draw.io components and a complete replica.
@@ -139,6 +140,12 @@ Workflow for creating, reviewing, and refining Slurm batch scripts for Brown
 University's Oscar cluster. It helps choose partitions, CPU/GPU/memory/time
 directives, job arrays, MPI patterns, environment setup, and monitoring
 commands.
+
+### `oscar-remote-debug`
+
+Workflow for connecting to Brown University's Oscar cluster over SSH, syncing
+local edits, and reusing a Slurm interactive CPU or GPU allocation for debugging.
+Includes Oscar storage and environment guidance.
 
 ### `remote-gpu-experiment`
 

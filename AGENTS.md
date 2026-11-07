@@ -16,6 +16,7 @@ Tracked skills:
 
 - `ssh-git-sync`: import and integrate commits from another reachable worktree without GitHub.
 - `oscar-slurm-batch`: create and review Brown Oscar Slurm batch scripts and job guidance.
+- `oscar-remote-debug`: connect to Brown Oscar, sync local edits, and debug in an interactive CPU or GPU allocation.
 - `remote-gpu-experiment`: local deep-learning development with SSH remote GPU execution, probing, sync, run, monitor, debug, and process-stop workflow.
 - `drawio-diagram-builder`: create, edit, replicate, and iteratively refine editable diagrams.net / draw.io research and technical figures.
 - `drawio-reference-replica`: explicit-invocation-only bitmap-to-draw.io strict replication workflow with full-image chunking, atomic component vectorization, component assembly, local CLI rendering, and one-to-one visual review against the reference.

@@ -1,7 +1,0 @@
-interface:
-  display_name: "DL Paper Code Repro"
-  short_description: "Opt-in workflow for DL paper/code reproduction"
-  default_prompt: "Use $deep-learning-paper-code-repro to read a paper PDF and its code repo, then write a detailed report under analysis/."
-
-policy:
-  allow_implicit_invocation: false

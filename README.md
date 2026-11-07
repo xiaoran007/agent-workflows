@@ -51,8 +51,6 @@ After restart, skills can be invoked by name:
 
 ```text
 Use $ssh-git-sync to import commits from my remote worktree.
-Use $deep-learning-paper-code-repro to analyze this paper and repository.
-Use $research-repro-cv-medimg to prepare a reproduction plan.
 Use $oscar-slurm-batch to write an Oscar batch job.
 Use $remote-gpu-experiment to run this deep-learning project on my SSH GPU host.
 Use $drawio-diagram-builder to create an editable research-style draw.io diagram.
@@ -127,21 +125,6 @@ custom agents.
 
 Skills live under `skills/codex/<name>/SKILL.md`. Each skill packages a reusable
 workflow and any supporting references or agent presets.
-
-### `deep-learning-paper-code-repro`
-
-Explicit-invocation-only workflow for deep learning paper and code reproduction.
-It reads a paper PDF visually, inspects the repository from README to execution
-paths, assumes a remote Linux cluster as the real runtime target, and writes a
-detailed report under `analysis/`.
-
-### `research-repro-cv-medimg`
-
-Explicit-invocation-only deep reading workflow for computer vision and medical
-imaging papers with their experiment repositories. It reconstructs methods,
-training and evaluation setup, hidden reproduction details, and reliable
-next-step plans for reproduction, modification, ablation, or comparison
-experiments.
 
 ### `ssh-git-sync`
 

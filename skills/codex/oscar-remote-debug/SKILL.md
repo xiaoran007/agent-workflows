@@ -15,15 +15,13 @@ authentication. Brown's public endpoint uses MFA. The campus endpoint supports
 key login from the campus network or VPN. See
 [Oscar SSH](https://docs.ccv.brown.edu/oscar/connecting-to-oscar/ssh).
 
-Use the login node to inspect paths, transfer code, and request resources. Run
-project commands inside the compute allocation. Locate the existing remote
-checkout and dataset from the task or project configuration. Use these
-conventions when proposing new paths:
+Use the login node for read-only path discovery, code transfers, and resource
+requests. Run project commands inside the compute allocation. Use these Oscar
+storage conventions when proposing paths:
 
 - `~/projects/<project>` under home for source code and small configuration files.
 - `~/data` or the project's group data directory for persistent datasets and
-  artifacts. Confirm the actual path when it is unclear. Some accounts lack
-  `~/data`.
+  artifacts. Some accounts lack `~/data`.
 - `~/scratch/<project>` for temporary outputs, caches, and intermediate
   checkpoints. Files can be purged after 30 days without access. Keep results
   that need to persist in the agreed data location. See
@@ -31,24 +29,25 @@ conventions when proposing new paths:
 
 ## Confirm the request once
 
+Use only paths the user explicitly supplies or approves for the remote source
+checkout, datasets or persistent storage, and temporary outputs. If any path
+the task needs is missing, propose a concrete path based on project configuration
+and read-only discovery. Obtain approval for proposed paths before creating
+directories, syncing files, allocating resources, or running project commands.
+
 Estimate CPU and GPU counts, RAM, and walltime from the smallest useful
-reproduction, using project settings or previous runs. Before the first upload
-or allocation, ask the user once to confirm the remote project path, what will
-be synced, and the resource request. Use an already confirmed plan if it covers
-the work. Subsequent edits and reruns within that scope use the same confirmation.
+reproduction, using project settings or previous runs. Confirm the sync scope
+and resource request in the same exchange as any proposed paths. Use an already
+confirmed plan if it covers the work. Subsequent edits and reruns within that
+scope use the same confirmation.
 
 - CPU-only debugging uses `batch`, with cores, RAM, and time sized to the task.
 - For GPU debugging, treat 2 GPUs and 12 CPU cores as this user's default
   account ceilings. Request only what the task needs. Prefer `gpu-debug` for
   short sessions and use 30 minutes as a planning guideline for that partition.
-- Prefer L40S when choosing a GPU model. Request H100 only when the task needs
-  its additional GPU memory or Hopper features. For `interact`, pass `-f l40s`
-  with a partition that advertises the feature, or `-q gpu-he -f h100` for H100.
-  Use `sinfo -N -o '%P %N %f %G'` when the model-to-partition mapping is unclear.
-  If the chosen model requires another partition, include it in the initial
-  confirmation. See
-  [Oscar GPU features](https://docs.ccv.brown.edu/oscar/system-overview#gpu-features-and-gpu-memory)
-  and [H100 access](https://docs.ccv.brown.edu/oscar/gpu-computing/gpus/h100-nvl-tensor-core-gpus).
+- In the user's Oscar setup, `gpu-debug` offers both L40S and H100. Prefer L40S
+  with `-q gpu-debug -f l40s`. Use `-q gpu-debug -f h100` when the task needs
+  H100, for example for its additional GPU memory or Hopper features.
 
 Submit the confirmed request directly and leave partition and account limit
 validation to Slurm. If Slurm rejects it, report the error and discuss a revised
@@ -75,8 +74,8 @@ flags. Set memory from the workload estimate.
 # Example CPU-only session
 interact -q batch -n 2 -m 4g -t 00:15:00
 
-# Example GPU session for a short reproduction that works on any GPU
-interact -q gpu-debug -g 1 -n 2 -m 8g -t 00:15:00
+# Example L40S session for a short reproduction
+interact -q gpu-debug -f l40s -g 1 -n 2 -m 8g -t 00:15:00
 ```
 
 Once the compute prompt appears, verify `hostname` and `$SLURM_JOB_ID`, then

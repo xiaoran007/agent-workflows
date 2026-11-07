@@ -31,18 +31,28 @@ conventions when proposing new paths:
 
 ## Confirm the request once
 
-Estimate the CPUs, RAM, and walltime from the smallest useful reproduction,
-using project settings or previous runs when available. Before the first upload
+Estimate CPU and GPU counts, RAM, and walltime from the smallest useful
+reproduction, using project settings or previous runs. Before the first upload
 or allocation, ask the user once to confirm the remote project path, what will
 be synced, and the resource request. Use an already confirmed plan if it covers
 the work. Subsequent edits and reruns within that scope use the same confirmation.
 
 - CPU-only debugging uses `batch`, with cores, RAM, and time sized to the task.
-- GPU debugging uses `gpu-debug`. The usual request for this user is 2 GPUs,
-  12 CPU cores, and 30 minutes. Request fewer resources when the reproduction
-  clearly needs less and size RAM separately. Submit the confirmed request
-  directly and leave partition and account validation to Slurm. If Slurm
-  rejects it, report the actual error and discuss a revised request.
+- For GPU debugging, treat 2 GPUs and 12 CPU cores as this user's default
+  account ceilings. Request only what the task needs. Prefer `gpu-debug` for
+  short sessions and use 30 minutes as a planning guideline for that partition.
+- Prefer L40S when choosing a GPU model. Request H100 only when the task needs
+  its additional GPU memory or Hopper features. For `interact`, pass `-f l40s`
+  with a partition that advertises the feature, or `-q gpu-he -f h100` for H100.
+  Use `sinfo -N -o '%P %N %f %G'` when the model-to-partition mapping is unclear.
+  If the chosen model requires another partition, include it in the initial
+  confirmation. See
+  [Oscar GPU features](https://docs.ccv.brown.edu/oscar/system-overview#gpu-features-and-gpu-memory)
+  and [H100 access](https://docs.ccv.brown.edu/oscar/gpu-computing/gpus/h100-nvl-tensor-core-gpus).
+
+Submit the confirmed request directly and leave partition and account limit
+validation to Slurm. If Slurm rejects it, report the error and discuss a revised
+request.
 
 ## Sync, then reuse the compute shell
 
@@ -65,8 +75,8 @@ flags. Set memory from the workload estimate.
 # Example CPU-only session
 interact -q batch -n 2 -m 4g -t 00:15:00
 
-# Usual GPU request for this user, with example memory
-interact -q gpu-debug -g 2 -n 12 -m 16g -t 00:30:00
+# Example GPU session for a short reproduction that works on any GPU
+interact -q gpu-debug -g 1 -n 2 -m 8g -t 00:15:00
 ```
 
 Once the compute prompt appears, verify `hostname` and `$SLURM_JOB_ID`, then

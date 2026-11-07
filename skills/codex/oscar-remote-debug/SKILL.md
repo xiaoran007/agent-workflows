@@ -90,7 +90,11 @@ and [Screen](https://docs.ccv.brown.edu/oscar/software/screen).
 
 Use the project's existing environment on Oscar. Activate its remote venv or
 named Conda environment, or launch its documented container inside the
-allocation. For a Miniforge-based Conda project, load the project's module
+allocation. On Oscar, `uv` is installed for the user at `~/.local/bin/uv`.
+When a Python project needs a new virtual environment, prefer
+`~/.local/bin/uv venv` from the project directory.
+
+For a Miniforge-based Conda project, load the project's module
 version and source its shell hook before activation. Brown's documented example
 is `module load miniforge3/25.3.0-3`, followed by
 `source "${MAMBA_ROOT_PREFIX}/etc/profile.d/conda.sh"` and `conda activate <env>`.
